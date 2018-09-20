@@ -1,75 +1,102 @@
 <!DOCTYPE html>
 <html>
-<body>
-<h3>Direcciones de la red</h3>
-<div id="direcciones"> </div>
-<br/>
-<h3>Versión del protocolo</h3>
-<div id="protocolo"></div>
-<h3>Balance cuenta</h3>
-<div id="balanceether"></div> 
-<br>
-<form name="formulario">
-  Direccion: <input type="text" name="direccion">
-</form>
-<br>
-<button onclick="miraBalance()">Ver</button>
+  <body>
+    <h4>Versión de la librería</h4>
+    <div id="libreria"></div>
+    <h4>Versión del protocolo</h4>
+    <div id="protocolo"></div>
+    <h4>Versión del nodo</h4>
+    <div id="nodover"> </div>
+    <h4>Número de bloques</h4>
+    <div id="bloquesnum"> </div>
+    <h4>Direcciones de la red</h4>
+    <div id="direcciones"> </div>
+    nodover
+    <br/>
+      <h3>Balance cuenta</h3>
+      <div id="balanceether"></div>
+      <br>
+      <form name="formulario">
+        Direccion: <input type="text" name="direccion">
+      </form>
+      <br>
+      <button onclick="miraBalance()">Ver</button>
 
-<script src="web3.min.js"></script>
-<script>
-	if (typeof web3 !== 'undefined') {
-	 web3 = new Web3(web3.currentProvider);
-	} else {
-	 // set the provider you want from Web3.providers
-	 web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-  }
-  
-  var version = web3.version.api;
-  console.log("Versión de la librería:");
-  console.log(version);
+      <script src="web3.min.js"></script>
+      <script>
+            if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+            } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+            }
 
-  web3.eth.getAccounts(function(error, result){
-   if(!error){
-      var direcciones = " ";
-      for(x in result){
-        direcciones += result[x] + "<br/>"
-      }
-      document.getElementById("direcciones").innerHTML = direcciones;
-  }else{
-       console.error(error);
-  }
-  })
+            var version = web3.version.api;
+            document.getElementById("libreria").innerHTML = version;
+            
 
-  web3.eth.getProtocolVersion(function(error, result){
-   if(!error){
-    document.getElementById("protocolo").innerHTML = result;
-  }else{
-       console.error(error);
-  }
-  })
+            web3.eth.getProtocolVersion(function(error, result){
+            if(!error){
+              document.getElementById("protocolo").innerHTML = result;
+            }else{
+                console.error(error);
+            }
+            })
 
-  function miraBalance() {
-    var direccion = document.forms["formulario"]["direccion"].value;
-    var ether = 0;
-    if (direccion == "") {
-        alert("Debes llenar la dirección");
-        return false;
-    }else{
-      web3.eth.getBalance(direccion,function(error, result){
-      if(!error){
-        ether = result / 1000000000000000000;
-        document.getElementById("balanceether").innerHTML = ether + " ETH";
-      }else{
-       console.error(error);
-      }
-      })
-    }
-  }
+            web3.version.getNode(function(error, result){
+            if(!error){
+              document.getElementById("nodover").innerHTML = result;
+            }else{
+                console.error(error);
+            }
+            })
+            
+
+            web3.eth.getBlockNumber(function(error, result){
+            if(!error){
+              document.getElementById("bloquesnum").innerHTML = result;
+            }else{
+                console.error(error);
+            }
+            })
+            
+
+            web3.eth.getAccounts(function(error, result){
+            if(!error){
+                var direcciones = " ";
+                for(x in result){
+                  direcciones += result[x] + "<br/>"
+                }
+                document.getElementById("direcciones").innerHTML = direcciones;
+            }else{
+                console.error(error);
+            }
+            })
+
+          
+
+            function miraBalance() {
+              var direccion = document.forms["formulario"]["direccion"].value;
+              var ether = 0;
+              if (direccion == "") {
+                  alert("Debes llenar la dirección");
+                  return false;
+              }else{
+                web3.eth.getBalance(direccion,function(error, result){
+                if(!error){
+                  ether = web3.fromWei(result, 'ether');
+                  document.getElementById("balanceether").innerHTML = ether + " ETH";
+                }else{
+                console.error(error);
+                }
+                })
+              }
+            }
 
 
  
  
 
 </script>
-</body>
-</html>
+    </body>
+  </html>
