@@ -1,102 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3Example</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css">
+    <link rel="stylesheet" href="css/custom.css">
+  </head>
+
+</head>
   <body>
-    <h4>Versión de la librería</h4>
-    <div id="libreria"></div>
+      <div class="custom-menu-wrapper">
+          <div class="pure-menu custom-menu custom-menu-top">
+              <a href="index.html" class="pure-menu-heading custom-menu-brand">Web3Example</a>
+              <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+          </div>
+          <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked" id="tuckedMenu">
+              <div class="custom-menu-screen"></div>
+              <ul class="pure-menu-list">
+                  <li class="pure-menu-item"><a href="index.html" class="pure-menu-link">Inicio</a></li>
+                  <li class="pure-menu-item"><a href="conversor.html" class="pure-menu-link">Conversor</a></li>
+                  
+              </ul>
+          </div>
+      </div>
+    <div id="contenido" class="pure-g" >
+      <div  class="pure-u-1-4">
+        <h4>Versión de la librería</h4>
+        <div id="libreria"></div>
+      </div>
+      <div  class="pure-u-1-4">
     <h4>Versión del protocolo</h4>
     <div id="protocolo"></div>
+    </div>
+    <div  class="pure-u-1-4">
     <h4>Versión del nodo</h4>
     <div id="nodover"> </div>
+    </div>
+    <div  class="pure-u-1-4">
     <h4>Número de bloques</h4>
     <div id="bloquesnum"> </div>
-    <h4>Direcciones de la red</h4>
-    <div id="direcciones"> </div>
-    nodover
-    <br/>
-      <h3>Balance cuenta</h3>
-      <div id="balanceether"></div>
-      <br>
-      <form name="formulario">
-        Direccion: <input type="text" name="direccion">
+    </div>
+    </div>
+    <div id="contenido" class="pure-g">
+        <div  class="pure-u-1-2">
+          <h4>Direcciones de la red</h4>
+          <div id="direcciones"> </div>
+      </div>
+      <div  class="pure-u-1-2">
+      <h4>Balance cuenta</h4>
+    
+  
+      <form name="formulario" class="pure-form">
+        <input type="text" name="direccion" placeholder="Dirección">
       </form>
       <br>
-      <button onclick="miraBalance()">Ver</button>
-
-      <script src="web3.min.js"></script>
-      <script>
-            if (typeof web3 !== 'undefined') {
-            web3 = new Web3(web3.currentProvider);
-            } else {
-            // set the provider you want from Web3.providers
-            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-            }
-
-            var version = web3.version.api;
-            document.getElementById("libreria").innerHTML = version;
-            
-
-            web3.eth.getProtocolVersion(function(error, result){
-            if(!error){
-              document.getElementById("protocolo").innerHTML = result;
-            }else{
-                console.error(error);
-            }
-            })
-
-            web3.version.getNode(function(error, result){
-            if(!error){
-              document.getElementById("nodover").innerHTML = result;
-            }else{
-                console.error(error);
-            }
-            })
-            
-
-            web3.eth.getBlockNumber(function(error, result){
-            if(!error){
-              document.getElementById("bloquesnum").innerHTML = result;
-            }else{
-                console.error(error);
-            }
-            })
-            
-
-            web3.eth.getAccounts(function(error, result){
-            if(!error){
-                var direcciones = " ";
-                for(x in result){
-                  direcciones += result[x] + "<br/>"
-                }
-                document.getElementById("direcciones").innerHTML = direcciones;
-            }else{
-                console.error(error);
-            }
-            })
-
-          
-
-            function miraBalance() {
-              var direccion = document.forms["formulario"]["direccion"].value;
-              var ether = 0;
-              if (direccion == "") {
-                  alert("Debes llenar la dirección");
-                  return false;
-              }else{
-                web3.eth.getBalance(direccion,function(error, result){
-                if(!error){
-                  ether = web3.fromWei(result, 'ether');
-                  document.getElementById("balanceether").innerHTML = ether + " ETH";
-                }else{
-                console.error(error);
-                }
-                })
-              }
-            }
-
-
- 
- 
-
-</script>
+      <button class="pure-button pure-button-primary" onclick="miraBalance()">Consultar</button>
+      <br >
+      <br >
+      <div id="balanceether"></div>
+    
+    </div>
+     
+      </div>
+      <script src="js/web3.min.js"></script>
+      <script src="js/index.js"></script>
     </body>
   </html>
